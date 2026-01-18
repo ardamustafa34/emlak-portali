@@ -324,12 +324,12 @@
     </button>
 
     <!-- Quick Access Menu (Sağ Orta) -->
-    <div class="fixed right-4 top-1/2 -translate-y-1/2 z-[1000] flex flex-col items-end gap-3 group">
+    <div class="fixed right-4 top-1/2 -translate-y-1/2 z-[1100] flex flex-col items-end gap-3 pointer-events-none">
         <!-- Menu Items (Açılır Kısım) -->
         <div id="quickMenu"
             class="flex flex-col gap-3 transition-all duration-500 scale-0 opacity-0 translate-x-10 origin-right">
             <a href="index.html"
-                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item">
+                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item pointer-events-auto">
                 <span class="text-xs font-bold uppercase tracking-wider">Ana Sayfa</span>
                 <div
                     class="bg-primary/10 group-hover/item:bg-white/20 p-2 rounded-lg text-primary group-hover/item:text-white transition-colors">
@@ -337,7 +337,7 @@
                 </div>
             </a>
             <a href="emlak-ilanlari.html"
-                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item">
+                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item pointer-events-auto">
                 <span class="text-xs font-bold uppercase tracking-wider">İlanlar</span>
                 <div
                     class="bg-primary/10 group-hover/item:bg-white/20 p-2 rounded-lg text-primary group-hover/item:text-white transition-colors">
@@ -345,7 +345,7 @@
                 </div>
             </a>
             <a href="contact.html"
-                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item">
+                class="flex items-center gap-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl border border-white/20 hover:bg-brand-gold hover:text-white transition-all group/item pointer-events-auto">
                 <span class="text-xs font-bold uppercase tracking-wider">İletişim</span>
                 <div
                     class="bg-primary/10 group-hover/item:bg-white/20 p-2 rounded-lg text-primary group-hover/item:text-white transition-colors">
@@ -356,7 +356,7 @@
 
         <!-- Toggle Button -->
         <button onclick="toggleQuickMenu()" id="quickMenuBtn"
-            class="size-14 bg-brand-gold hover:bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-300 active:scale-90 border border-white/20 relative group">
+            class="size-14 bg-brand-gold hover:bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-300 active:scale-90 border border-white/20 relative group pointer-events-auto">
             <span class="material-symbols-outlined text-3xl transition-transform duration-500"
                 id="quickMenuIcon">apps</span>
             <!-- Tooltip -->
@@ -494,6 +494,25 @@
             } else {
                 sidebar.classList.add('-translate-x-full', 'opacity-0');
                 if (window.innerWidth < 768) mobileBtn.classList.remove('hidden');
+            }
+        }
+
+        // Quick Menu Toggle
+        function toggleQuickMenu() {
+            const menu = document.getElementById('quickMenu');
+            const icon = document.getElementById('quickMenuIcon');
+            const btn = document.getElementById('quickMenuBtn');
+
+            if (menu.classList.contains('scale-0')) {
+                menu.classList.remove('scale-0', 'opacity-0', 'translate-x-10');
+                icon.innerText = 'close';
+                btn.classList.add('rotate-90');
+                icon.classList.add('scale-110');
+            } else {
+                menu.classList.add('scale-0', 'opacity-0', 'translate-x-10');
+                icon.innerText = 'apps';
+                btn.classList.remove('rotate-90');
+                icon.classList.remove('scale-110');
             }
         }
     </script>
