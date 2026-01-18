@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
@@ -5,7 +6,8 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const dbPath = process.env.DB_PATH || './global_emlak_v1.db';
 
 // Middleware
 app.use(cors());
@@ -14,7 +16,7 @@ app.use(express.static(path.join(__dirname, '.'))); // Statik dosyaları sun (in
 
 // Veritabanı Bağlantısı ve Kurulumu
 // Not: Şema çakışmalarını önlemek için yeni bir dosya ismi kullanıyoruz
-const db = new sqlite3.Database('./global_emlak_v1.db', (err) => {
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Veritabanı bağlantı hatası:', err.message);
     } else {
