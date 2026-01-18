@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="light" lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Global Emlak | Gayrimenkul ve Yatırım Portalı</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1B365D",
+            "secondary": "#E2E8F0",
+            "accent": "#C5A059",
+            "slate-bg": "#F8FAFC",
+          },
+          fontFamily: {
+            "sans": ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FFFFFF;
+    }
+
+    .gov-header-band {
+      background: linear-gradient(90deg, #1B365D 0%, #2D4A77 100%);
+    }
+
+    .hero-section {
+      background: linear-gradient(rgba(27, 54, 93, 0.8), rgba(27, 54, 93, 0.9)),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .feature-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #E2E8F0;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      border-color: #1B365D;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -10px rgba(27, 54, 93, 0.15);
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border-left: 4px solid #1B365D;
+      cursor: default;
+    }
+
+    .elegant-shadow {
+      box-shadow: 0 4px 20px -2px rgba(27, 54, 93, 0.08);
+    }
+  </style>
+</head>
+
+<body class="text-slate-900 dark:text-slate-100">
+
+  <!-- Gov Header Band with Currency -->
+  <div class="gov-header-band text-white py-1">
+    <div
+      class="max-w-7xl mx-auto px-6 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+      <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">account_balance</span>
+          Türkiye Cumhuriyeti Resmi Portalı</span>
+      </div>
+      <div class="flex items-center gap-4 border-l border-white/20 pl-4">
+        <div class="flex items-center gap-2">
+          <span>USD/TRY</span>
+          <span class="text-green-400" id="usdPrice">30.12 ↑</span>
+        </div>
+        <div class="flex items-center gap-2 border-l border-white/20 pl-4">
+          <span>EUR/TRY</span>
+          <span class="text-red-400" id="eurPrice">32.85 ↓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <div class="bg-primary p-2 rounded-lg text-white shadow-lg">
+          <span class="material-symbols-outlined block text-2xl">account_balance</span>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="text-primary text-xl font-extrabold leading-tight tracking-tight uppercase">Global Emlak</h1>
+          <p class="text-[9px] font-bold text-slate-500 uppercase tracking-tighter">Gayrimenkul ve Yatırım Portalı</p>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-bold text-primary hover:text-accent transition-colors">Ana Sayfa</a>
+        <a href="emlak-ilanlari.html"
+          class="text-sm font-bold text-slate-600 hover:text-primary transition-colors">Güncel İlanlar</a>
+        <a href="map.html" class="text-sm font-bold text-slate-600 hover:text-primary transition-colors">Parsel
+          Sorgu</a>
+        <a href="contact.html"
+          class="text-sm font-bold text-slate-600 hover:text-primary transition-colors">İletişim</a>
+      </nav>
+
+      <div class="flex items-center gap-4" id="authSection">
+        <a href="login.html" id="loginBtn"
+          class="hidden sm:flex items-center justify-center rounded-lg h-10 px-6 border-2 border-primary text-primary text-xs font-black hover:bg-primary hover:text-white transition-all uppercase tracking-widest">
+          GİRİŞ YAP
+        </a>
+        <div id="userProfile" class="hidden items-center gap-3">
+          <div class="flex items-center gap-3 bg-slate-100 px-4 py-2 rounded-xl">
+            <span class="material-symbols-outlined text-slate-400 size-5">person</span>
+            <span id="userName" class="text-xs font-bold text-primary uppercase tracking-tight">Kullanıcı</span>
+          </div>
+          <button onclick="logout()" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+            <span class="material-symbols-outlined">logout</span>
+          </button>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden p-2 text-primary" onclick="toggleMobileMenu()">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section relative min-h-[600px] flex items-center overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 w-full py-20 relative z-10">
+        <div class="max-w-3xl space-y-8">
+          <div class="space-y-4">
+            <div
+              class="inline-flex items-center gap-2 bg-accent/20 text-accent px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-accent/30">
+              <span class="size-2 bg-accent rounded-full animate-pulse"></span>
+              Kurumsal Emlak Platformu
+            </div>
+            <h2 class="text-white text-5xl md:text-7xl font-black leading-tight tracking-tighter">
+              Modern Yaşamın ve <br />
+              <span class="text-accent underline decoration-white/20 underline-offset-8">Geleceğin Adresi</span>
+            </h2>
+            <p class="text-slate-200 text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
+              Kamu güvencesi ile yönetilen, şeffaf ve sürdürülebilir gayrimenkul süreçlerine hoş geldiniz.
+              Resmi verilerle desteklenen modern mülkiyet yönetim sistemi.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="emlak-ilanlari.html"
+              class="h-14 px-10 bg-accent hover:bg-white text-primary font-black rounded-xl shadow-2xl transition-all flex items-center justify-center gap-3">
+              PORTFÖYÜ İNCELE
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+            <a href="map.html"
+              class="h-14 px-10 bg-white/10 hover:bg-white/20 text-white font-black rounded-xl border border-white/30 backdrop-blur-md transition-all flex items-center justify-center gap-3">
+              <span class="material-symbols-outlined">map</span>
+              PARSEL SORGULA
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="max-w-7xl mx-auto px-6 -mt-12 relative z-20">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="stat-card p-8 elegant-shadow rounded-xl">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">Aktif Portföy</p>
+              <h3 class="text-primary text-4xl font-black mt-1">2,450+</h3>
+            </div>
+            <div class="bg-primary/5 p-3 rounded-xl text-primary font-black">
+              <span class="material-symbols-outlined text-2xl">database</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-green-600">
+            <span class="material-symbols-outlined text-sm">trending_up</span>
+            Bu ay %12 artış
+          </div>
+        </div>
+
+        <div class="stat-card p-8 elegant-shadow rounded-xl">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">Toplam İşlem Hacmi</p>
+              <h3 class="text-primary text-4xl font-black mt-1">1.1B ₺</h3>
+            </div>
+            <div class="bg-primary/5 p-3 rounded-xl text-primary font-black">
+              <span class="material-symbols-outlined text-2xl">verified_user</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-blue-600">
+            Şeffaf denetimli süreç
+          </div>
+        </div>
+
+        <div class="stat-card p-8 elegant-shadow rounded-xl">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">Kurumsal Ofisler</p>
+              <h3 class="text-primary text-4xl font-black mt-1">12 Ofis</h3>
+            </div>
+            <div class="bg-primary/5 p-3 rounded-xl text-primary font-black">
+              <span class="material-symbols-outlined text-2xl">apartment</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-bold text-accent">
+            Tüm bölgelerde hizmet
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="max-w-7xl mx-auto px-6 py-24">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-16">
+        <div class="space-y-4 max-w-2xl">
+          <h4 class="text-accent font-black text-xs uppercase tracking-[0.2em]">Öne Çıkan Seçenekler</h4>
+          <h2 class="text-primary text-4xl md:text-5xl font-black tracking-tighter">Günün Seçkin <br /> Gayrimenkulleri
+          </h2>
+          <div class="w-20 h-1.5 bg-accent rounded-full"></div>
+        </div>
+        <p class="text-slate-500 font-medium max-w-sm">
+          Uzman kurul tarafından değerlendirilmiş, potansiyeli yüksek güncel portföyümüzü keşfedin.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Card 1 -->
+        <div class="feature-card group rounded-2xl overflow-hidden bg-white"
+          onclick="window.location.href='emlak-ilanlari.html'">
+          <div class="relative aspect-video overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=800"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="İlan 1" />
+            <div
+              class="absolute top-4 left-4 bg-primary text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+              Kurumsal İlan</div>
+          </div>
+          <div class="p-6 space-y-4">
+            <div>
+              <h3 class="text-primary text-xl font-extrabold group-hover:text-accent transition-colors tracking-tight">
+                Modern Yaşam Konutları</h3>
+              <p class="text-slate-400 text-xs font-bold uppercase mt-1">Silivri / İstanbul</p>
+            </div>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-primary text-lg font-black tracking-tight">4.500.000 ₺</span>
+              <span class="text-slate-400 text-[10px] font-bold">Ref: #TK2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card group rounded-2xl overflow-hidden bg-white"
+          onclick="window.location.href='emlak-ilanlari.html'">
+          <div class="relative aspect-video overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="İlan 2" />
+            <div
+              class="absolute top-4 left-4 bg-primary text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+              Ticari Proje</div>
+          </div>
+          <div class="p-6 space-y-4">
+            <div>
+              <h3 class="text-primary text-xl font-extrabold group-hover:text-accent transition-colors tracking-tight">
+                Lojistik Merkezi Alanı</h3>
+              <p class="text-slate-400 text-xs font-bold uppercase mt-1">Çatalca / İstanbul</p>
+            </div>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-primary text-lg font-black tracking-tight">8.750.000 ₺</span>
+              <span class="text-slate-400 text-[10px] font-bold">Ref: #LB850</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card group rounded-2xl overflow-hidden bg-white"
+          onclick="window.location.href='emlak-ilanlari.html'">
+          <div class="relative aspect-video overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="İlan 3" />
+            <div
+              class="absolute top-4 left-4 bg-green-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+              Yeni Parsel</div>
+          </div>
+          <div class="p-6 space-y-4">
+            <div>
+              <h3 class="text-primary text-xl font-extrabold group-hover:text-accent transition-colors tracking-tight">
+                Yatırımlık Fırsat Arazisi</h3>
+              <p class="text-slate-400 text-xs font-bold uppercase mt-1">Çekmeköy / İstanbul</p>
+            </div>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <span class="text-primary text-lg font-black tracking-tight">1.150.000 ₺</span>
+              <span class="text-slate-400 text-[10px] font-bold">Ref: #AR191</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Section -->
+    <section class="max-w-7xl mx-auto px-6 py-24 mb-20 bg-primary rounded-[2rem] overflow-hidden relative shadow-2xl">
+      <!-- Background Decoration -->
+      <div class="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 translate-x-1/2"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 items-center gap-12 relative z-10 px-6 sm:px-12">
+        <div class="lg:col-span-3 space-y-6">
+          <h2 class="text-white text-4xl md:text-5xl font-black tracking-tight">Dijital Şehircilik ve Parsel Sorgulama
+          </h2>
+          <p class="text-slate-300 text-lg font-medium leading-relaxed">
+            Veritabanımızdaki 2.000'den fazla kayıtlı parseli interaktif harita üzerinden sorgulayın.
+            Kadastral veriler ve uydu görüntüleri ile desteklenen kurumsal sorgu motoru.
+          </p>
+          <div class="flex flex-wrap gap-6 pt-4">
+            <div class="flex items-center gap-3 cursor-help">
+              <span class="material-symbols-outlined text-accent">satellite_alt</span>
+              <span class="text-white text-xs font-bold uppercase tracking-widest text-white/80">Uydu Destekli</span>
+            </div>
+            <div class="flex items-center gap-3 cursor-help">
+              <span class="material-symbols-outlined text-accent">verified</span>
+              <span class="text-white text-xs font-bold uppercase tracking-widest text-white/80">Resmi Veriler</span>
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-2 flex justify-center">
+          <a href="map.html"
+            class="group bg-white hover:bg-accent text-primary p-12 rounded-[2.5rem] shadow-2xl transition-all hover:-translate-y-2 flex flex-col items-center gap-4 text-center">
+            <span
+              class="material-symbols-outlined text-6xl group-hover:scale-110 transition-transform">location_searching</span>
+            <div class="space-y-1">
+              <h4 class="font-black text-xl">HARİTAYI BAŞLAT</h4>
+              <p class="text-[10px] font-black uppercase tracking-widest opacity-50 italic">Anlık Kadastro Verisi</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-50 border-t border-slate-200 py-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-16">
+        <!-- Brand Info -->
+        <div class="col-span-1 md:col-span-1 flex flex-col gap-6">
+          <div class="flex items-center gap-4 cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="bg-primary p-2 rounded-lg text-white">
+              <span class="material-symbols-outlined block text-xl">account_balance</span>
+            </div>
+            <h2 class="text-primary text-lg font-black tracking-tight uppercase">Global Emlak</h2>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed font-medium">
+            Kamu iştiraki ile kurulan, güven odaklı yeni nesil emlak ve gayrimenkul yönetim platformu.
+          </p>
+        </div>
+
+
+
+        <!-- Links 2 -->
+        <div>
+          <h4 class="text-primary font-black text-xs uppercase tracking-widest mb-8">Hızlı Erişim</h4>
+          <ul class="space-y-4 text-sm font-bold text-slate-500">
+            <li><a href="emlak-ilanlari.html" class="hover:text-primary transition-colors">Güncel İlanlar</a></li>
+            <li><a href="map.html" class="hover:text-primary transition-colors">Parsel Sorgulama</a></li>
+            <li><a href="contact.html" class="hover:text-primary transition-colors">İletişim Kanalları</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-primary font-black text-xs uppercase tracking-widest mb-8">İletişim Merkezi</h4>
+          <ul class="space-y-4 text-sm font-bold text-slate-500">
+            <li class="flex items-center gap-3"><span class="material-symbols-outlined text-accent text-sm">mail</span>
+              info@globalemlak.com.tr</li>
+            <li class="flex items-center gap-3"><span class="material-symbols-outlined text-accent text-sm">phone</span>
+              0850 555 44 33</li>
+            <li class="flex items-center gap-3"><span
+                class="material-symbols-outlined text-accent text-sm">location_on</span> Merkez Yerleşkesi, Ankara</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Footer -->
+      <div class="pt-10 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-6">
+        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+          © 2026 Global Emlak Portföy Yönetimi A.Ş. Tüm hakları saklıdır.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="#" class="text-primary/40 hover:text-primary"><span
+              class="material-symbols-outlined">share_location</span></a>
+          <a href="contact.html" class="text-primary/40 hover:text-primary"><span
+              class="material-symbols-outlined">notifications</span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/auth.js"></script>
+  <script>
+    // Real-time Currency Fetching
+    async function updateCurrency() {
+      try {
+        const response = await fetch('https://open.er-api.com/v6/latest/USD');
+        const data = await response.json();
+        if (data && data.rates && data.rates.TRY) {
+          const usdTry = data.rates.TRY.toFixed(2);
+          const eurTry = (data.rates.TRY / data.rates.EUR).toFixed(2);
+          document.getElementById('usdPrice').textContent = `${usdTry} ₺`;
+          document.getElementById('eurPrice').textContent = `${eurTry} ₺`;
+        }
+      } catch (error) { console.error('Currency error:', error); }
+    }
+
+    // Init Logic on this page
+    updateCurrency();
+    setInterval(updateCurrency, 300000);
+  </script>
+
+  <!-- Mobile Navigation Overlay (Fixed Structural Location) -->
+  <div id="mobileMenu"
+    class="fixed inset-0 z-[100] bg-primary translate-x-full transition-transform duration-500 md:hidden">
+    <div class="flex flex-col h-full p-8 sm:p-12">
+      <div class="flex justify-between items-center mb-12">
+        <div class="flex items-center gap-3">
+          <div class="bg-white/10 p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined">account_balance</span>
+          </div>
+          <span class="text-white font-black tracking-tight uppercase">Global Emlak</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="text-white/60 hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-4xl">close</span>
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-6">
+        <a href="index.html" class="group flex items-center justify-between py-4 border-b border-white/5">
+          <span class="text-white text-3xl font-black tracking-tighter group-hover:text-accent transition-colors">Ana
+            Sayfa</span>
+          <span class="material-symbols-outlined text-white/20 group-hover:text-accent">chevron_right</span>
+        </a>
+        <a href="emlak-ilanlari.html" class="group flex items-center justify-between py-4 border-b border-white/5">
+          <span class="text-white text-3xl font-black tracking-tighter group-hover:text-accent transition-colors">Güncel
+            İlanlar</span>
+          <span class="material-symbols-outlined text-white/20 group-hover:text-accent">chevron_right</span>
+        </a>
+        <a href="map.html" class="group flex items-center justify-between py-4 border-b border-white/5">
+          <span class="text-white text-3xl font-black tracking-tighter group-hover:text-accent transition-colors">Parsel
+            Sorgu</span>
+          <span class="material-symbols-outlined text-white/20 group-hover:text-accent">chevron_right</span>
+        </a>
+        <a href="contact.html" class="group flex items-center justify-between py-4">
+          <span
+            class="text-white text-3xl font-black tracking-tighter group-hover:text-accent transition-colors">İletişim</span>
+          <span class="material-symbols-outlined text-white/20 group-hover:text-accent">chevron_right</span>
+        </a>
+      </nav>
+
+      <div class="mt-auto pt-8">
+        <!-- Mobile Login Button (Visible when logged out) -->
+        <a href="login.html" id="mobileLoginBtn"
+          class="w-full h-16 bg-accent text-primary font-black rounded-2xl flex items-center justify-center gap-3 uppercase tracking-widest shadow-xl shadow-accent/10">
+          SİSTEME GİRİŞ YAP
+        </a>
+        <!-- Mobile User Profile (Visible when logged in) -->
+        <div id="mobileUserProfile" class="hidden flex-col gap-4">
+          <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl border border-white/5">
+            <div class="size-12 bg-accent rounded-xl flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined">person</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-white/60 text-[10px] font-black uppercase tracking-widest">Hoş Geldiniz</span>
+              <span id="mobileUserName" class="text-white font-bold tracking-tight">Kullanıcı</span>
+            </div>
+          </div>
+          <button onclick="logout()"
+            class="w-full h-14 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white font-black rounded-xl transition-all flex items-center justify-center gap-3 uppercase text-xs tracking-widest">
+            <span class="material-symbols-outlined">logout</span>
+            OTURUMU KAPAT
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

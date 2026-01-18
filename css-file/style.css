@@ -1,0 +1,79 @@
+/* Bu dosya dışarıdan çağrılacak */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #13ec13;
+  --earthy-brown: #3d2b1f;
+}
+
+/* Siyah linkler ve hover efekti */
+.nav-link-custom {
+    color: #000000 !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+.nav-link-custom:hover {
+    color: var(--primary) !important;
+}
+
+/* Hero Alanı */
+.hero-gradient {
+    background-image: linear-gradient(rgba(61, 43, 31, 0.4) 0%, rgba(16, 34, 16, 0.7) 100%), 
+                      url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3Nl1FH87TODgWY6QdFug2YImUv4nUIdmhcDmLQ5O_a3uon545YaQatYOZKoSoDRVf8p1SgI-Uel3sXEVIEX1cMpdcmNFPsXnKmZrxIHxrXE2ylTapI6RlvfU0O1y1wHpaW02nym9xFUkMga1HoOHyCZLZnvC8EiiaiVMfRjfTv4uRmxT0uEIYWYMBrxKMOhrcJanGH4AHSMsKrHoq58Bwof2fXBEqy7y1IyFli6A_PIVeSpl6sV4Y0bz8OIjeSdWj-Y2YDBIJxw');
+    background-size: cover;
+    background-position: center;
+    min-height: 600px;
+}
+/* CSS dosyasının içinde birebir bu kod olmalı */
+.text-sm.font-semibold.hover\:text-primary.transition-colors {
+    color: #000000 !important;
+}
+
+.text-sm.font-semibold.hover\:text-primary.transition-colors:hover {
+    color: #13ec13 !important;
+}
+/* Bu kısım belirttiğin uzun sınıflı metni siyah yapar */
+.text-earthy-brown\/70.dark\:text-gray-300.text-lg.leading-relaxed {
+    color: #000000 !important;
+}
+/* Inter Fontunu sadece bu öğeler için çağırıyoruz */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+/* Sadece belirttiğin sınıfa sahip elementleri hedef alır */
+.text-sm.font-semibold.hover\:text-primary.transition-colors {
+    font-family: 'Inter', sans-serif !important;
+    color: #000000 !important;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Üzerine gelince (hover) yeşil olması için */
+.text-sm.font-semibold.hover\:text-primary.transition-colors:hover {
+    color: #13ec13 !important;
+}
+/* Butona basıldığında (active) hafif küçülme efekti */
+.mt-4.flex.min-w-\[200px\].w-fit:active {
+    transform: scale(0.98);
+}
+
+
+.ekonomi-bandi {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(46, 204, 113, 0.2); /* Sitenin yeşiliyle hafif bir çizgi */
+}
+
+/* Mobilde bandın düzgün görünmesi için */
+@media (max-width: 768px) {
+    .ekonomi-bandi {
+        height: auto;
+        padding: 2px 0;
+    }
+}
